@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <projectDescription>
 	<name>Zoo</name>
-	<comment></comment>
+	<comment />
 	<projects>
 		<project>libcocos2dx</project>
 	</projects>
@@ -67,5 +67,5 @@
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/cocos2d/cocos/platform/android/java/src</locationURI>
 		</link>
-	</linkedResources>
+	<link><name>plugin-x</name><type>2</type><locationURI>/Users/daxiazi/develop/zoo/cocos2d/plugin/publish</locationURI></link></linkedResources>
 </projectDescription>

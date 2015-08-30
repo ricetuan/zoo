@@ -42,3 +42,6 @@ do
     PLUGINS_CAN_SELECT="${PLUGINS_CAN_SELECT}${PLUGINS_CAN_SELECT:+:}${plugin_name}"
 done
 echo "PLUGINS_CAN_SELECT = ${PLUGINS_CAN_SELECT}"
+
+#define plugins array 
+export ALL_PLUGINS=("adcolony")
