@@ -25,7 +25,9 @@
 #include "LackLifeReader.h"
 #include "NetworkingWrapper.h"
 #include "YesNoLayer.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "NativeLauncher.h"
+#endif
 
 USING_NS_CC;
 using namespace cocos2d::plugin;
@@ -448,6 +450,7 @@ void MainScene::showLackLifeNotice()
 
 void MainScene::openReviewDialog()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     auto yesno = YesNoLayer::createWithMessage(CCLS("REVIEW_DIALOG_MESSAGE"));
     yesno->pushedYesCallback = [this]{
         cocos2dext::NativeLauncher::openReviewPage();
@@ -458,6 +461,10 @@ void MainScene::openReviewDialog()
         });
     };
     addChild(yesno);
+#else
+    //TODO: android review
+#endif
+  
 }
 
 #pragma - adcolony
