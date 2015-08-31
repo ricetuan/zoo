@@ -14,6 +14,7 @@
 #include "json/stringbuffer.h"
 #include "Constants.h"
 #include "Length.h"
+#include <vector>
 class Weight;
 
 class Species {

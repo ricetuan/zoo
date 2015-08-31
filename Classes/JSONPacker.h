@@ -9,6 +9,9 @@
 #ifndef __Zoo__JSONPacker__
 #define __Zoo__JSONPacker__
 
+#include <string>
+#include <vector>
+#include "cocos2d.h"
 namespace JSONPacker
 {
 
