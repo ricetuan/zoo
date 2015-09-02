@@ -28,7 +28,7 @@ package org.cocos2dx.cpp;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
-import org.cocos2dx.plugin.PluginWrapper;
+//import org.cocos2dx.plugin.PluginWrapper;
 
 
 public class AppActivity extends Cocos2dxActivity {
@@ -37,8 +37,8 @@ public class AppActivity extends Cocos2dxActivity {
         // TestCpp should create stencil buffer
         glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
         //initiate plugin-x
-        PluginWrapper.init(this);
-        PluginWrapper.setGLSurfaceView(glSurfaceView);
+//        PluginWrapper.init(this);
+//        PluginWrapper.setGLSurfaceView(glSurfaceView);
         return glSurfaceView;
     }
 

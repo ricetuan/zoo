@@ -11,13 +11,22 @@
 
 #include "CommonInclude.h"
 #include "WorldSceneInterface.h"
+#include "Constants.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "NetworkManagerDelegate.h"
 #include "NetworkingWrapper.h"
+#endif
+
 class MainScene;
 class MultiBattleScene;
 class TitleScene;
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 class SceneManager : NetworkingDelegate {
+#else
+class SceneManager {
+#endif
 public:
     static SceneManager* getInstance();
     void enterMainScene();
@@ -41,7 +50,9 @@ public:
     std::string getOpponentName();
 
 private:
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     std::unique_ptr<NetworkingWrapper> networkingWrapper;
+#endif
     Scene* _scene;
     bool _isNetwork;
     int _userId;

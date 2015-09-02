@@ -31,8 +31,10 @@ SceneManager::SceneManager()
 {
     _scene = NULL;
     _isNetwork = false;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     this->networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
     this->networkingWrapper->setDelegate(this);
+#endif
     _userId = 0;
     _opponentUserId = 0;
 }
@@ -92,7 +94,9 @@ void SceneManager::enterMultiBattleScene()
     _isNetwork = true;
     _scene = MultiBattleScene::createScene();
     sendUserInfo();
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     networkingWrapper->stopAdvertisingAvailability();
+#endif
     Director::getInstance()->replaceScene(
         TransitionFade::create(1.0f, _scene, Color3B::BLACK)
     );
@@ -102,8 +106,10 @@ void SceneManager::backMainScene()
 {
     _isNetwork = false;
     _scene = MainScene::createScene();
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     networkingWrapper->disconnect();
     networkingWrapper->stopAdvertisingAvailability();
+#endif
     Director::getInstance()->replaceScene(
         TransitionFade::create(1.0f, _scene, Color3B::BLACK)
     );
@@ -127,18 +133,23 @@ bool SceneManager::isHost()
 
 void SceneManager::showPeerList()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     networkingWrapper->showPeerList();
+#endif
 }
 
 void SceneManager::receiveMultiplayerInvitations()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     networkingWrapper->startAdvertisingAvailability();
+#endif
 }
 
 void SceneManager::sendData(const void* data, unsigned long length)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     networkingWrapper->sendData(data, length);
-
+#endif
     // FOR DEBUG
 //    receivedData(data, length);
 }
@@ -170,7 +181,9 @@ void SceneManager::stateChanged(ConnectionState state)
             if (isNetwork()) {
                 WorldManager::getInstance()->disconnectSession();
             }
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
             networkingWrapper->disconnect();
+#endif
             break;
         default:
             break;
@@ -189,16 +202,21 @@ void SceneManager::setOpponentUserInfo(std::string name, int userId, double time
 
 void SceneManager::sendUserInfo()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     auto name = networkingWrapper->getDeviceName();
+
     _userId = rand();
     _startTime = ZUtil::getTime();
     auto command = CommandGenerater::sendUserInfo(name, _userId);
     CommandGenerater::sendData(command);
+#endif
 }
 
 std::string SceneManager::getPlayerName()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     return networkingWrapper->getDeviceName();
+#endif
 }
 
 std::string SceneManager::getOpponentName()

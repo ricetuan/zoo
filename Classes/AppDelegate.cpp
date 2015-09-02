@@ -7,6 +7,7 @@
 #include "NativeLauncher.h"
 #endif
 
+
 USING_NS_CC;
 
 AppDelegate::AppDelegate() {
@@ -36,7 +37,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
         glview = GLViewImpl::createWithRect("Zoo", Rect(0, 0, 1136, 640));
         director->setOpenGLView(glview);
     }
-
+    
     glview->setDesignResolutionSize(1136, 640, ResolutionPolicy::FIXED_WIDTH);
 
     // turn on display FPS

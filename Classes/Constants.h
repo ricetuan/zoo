@@ -93,5 +93,11 @@ enum class SizeRank
     Gold   = 2,
 };
 
+enum class ConnectionState
+{
+    NOT_CONNECTED,
+    CONNECTING,
+    CONNECTED
+};
 
 #endif

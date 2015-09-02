@@ -14,16 +14,17 @@ LOCAL_SRC_FILES += $(CPP_FILES:$(LOCAL_PATH)/%=%)
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/cocos/ui
 
-LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static \
-PluginProtocolStatic PluginAdColonyStatic
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
+LOCAL_WHOLE_STATIC_LIBRARIES += PluginProtocolStatic
+LOCAL_WHOLE_STATIC_LIBRARIES += PluginAdColonyStatic
 LOCAL_WHOLE_STATIC_LIBRARIES += cocosdenshion_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocostudio_static
 
 include $(BUILD_SHARED_LIBRARY)
 
+$(call import-add-path,$(LOCAL_PATH)/../../cocos2d/plugin/publish)
 $(call import-module,.)
 $(call import-module,audio/android)
 $(call import-module,editor-support/cocostudio)
-
-$(call import-module,protocols/android)
 $(call import-module,plugins/adcolony/android)
+$(call import-module,protocols/android)

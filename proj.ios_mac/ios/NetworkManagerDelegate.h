@@ -9,12 +9,7 @@
 #ifndef __Doodler__NetworkManagerDelegate__
 #define __Doodler__NetworkManagerDelegate__
 
-enum class ConnectionState
-{
-    NOT_CONNECTED,
-    CONNECTING,
-    CONNECTED
-};
+#include "Constants.h"
 
 class NetworkManagerDelegate
 {

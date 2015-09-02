@@ -23,7 +23,11 @@
 #include "TransmigrationReader.h"
 #include "LackLife.h"
 #include "LackLifeReader.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "NetworkingWrapper.h"
+#endif
+
 #include "YesNoLayer.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "NativeLauncher.h"
@@ -507,7 +511,12 @@ void MainScene::onAdColonyAdAttemptFinished(bool adShown)
 
 void MainScene::_setupAdColony()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     auto uuid = NetworkingWrapper::getUUID();
+#else
+    //TODO: android
+    auto uuid = "testtest";
+#endif
     
     //Load plugin
     _adcolonyAds = AdColonyAgent::getInstance();
