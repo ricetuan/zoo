@@ -31,8 +31,6 @@ SceneManager::SceneManager()
 {
     _scene = NULL;
     _isNetwork = false;
-    this->networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
-    this->networkingWrapper->setDelegate(this);
     _userId = 0;
     _opponentUserId = 0;
 }
@@ -92,7 +90,6 @@ void SceneManager::enterMultiBattleScene()
     _isNetwork = true;
     _scene = MultiBattleScene::createScene();
     sendUserInfo();
-    networkingWrapper->stopAdvertisingAvailability();
     Director::getInstance()->replaceScene(
         TransitionFade::create(1.0f, _scene, Color3B::BLACK)
     );
@@ -102,8 +99,6 @@ void SceneManager::backMainScene()
 {
     _isNetwork = false;
     _scene = MainScene::createScene();
-    networkingWrapper->disconnect();
-    networkingWrapper->stopAdvertisingAvailability();
     Director::getInstance()->replaceScene(
         TransitionFade::create(1.0f, _scene, Color3B::BLACK)
     );
@@ -127,17 +122,16 @@ bool SceneManager::isHost()
 
 void SceneManager::showPeerList()
 {
-    networkingWrapper->showPeerList();
+   
 }
 
 void SceneManager::receiveMultiplayerInvitations()
 {
-    networkingWrapper->startAdvertisingAvailability();
+  
 }
 
 void SceneManager::sendData(const void* data, unsigned long length)
 {
-    networkingWrapper->sendData(data, length);
 
     // FOR DEBUG
 //    receivedData(data, length);
@@ -153,30 +147,6 @@ void SceneManager::receivedData(const void* data, unsigned long length)
     }
 }
 
-void SceneManager::stateChanged(ConnectionState state)
-{
-    switch (state) {
-        case ConnectionState::CONNECTING:
-            CCLOG("Connecting...");
-            break;
-        case ConnectionState::CONNECTED:
-            CCLOG("Connected");
-            if (isNetwork() == false) {
-                enterMultiBattleScene();
-            }
-            break;
-        case ConnectionState::NOT_CONNECTED:
-            CCLOG("Not connected");
-            if (isNetwork()) {
-                WorldManager::getInstance()->disconnectSession();
-            }
-            networkingWrapper->disconnect();
-            break;
-        default:
-            break;
-    }
-}
-
 void SceneManager::setOpponentUserInfo(std::string name, int userId, double time)
 {
     _opponentName = name;
@@ -189,16 +159,12 @@ void SceneManager::setOpponentUserInfo(std::string name, int userId, double time
 
 void SceneManager::sendUserInfo()
 {
-    auto name = networkingWrapper->getDeviceName();
-    _userId = rand();
-    _startTime = ZUtil::getTime();
-    auto command = CommandGenerater::sendUserInfo(name, _userId);
-    CommandGenerater::sendData(command);
+
 }
 
 std::string SceneManager::getPlayerName()
 {
-    return networkingWrapper->getDeviceName();
+
 }
 
 std::string SceneManager::getOpponentName()

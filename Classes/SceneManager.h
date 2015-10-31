@@ -11,13 +11,11 @@
 
 #include "CommonInclude.h"
 #include "WorldSceneInterface.h"
-#include "NetworkManagerDelegate.h"
-#include "NetworkingWrapper.h"
 class MainScene;
 class MultiBattleScene;
 class TitleScene;
 
-class SceneManager : NetworkingDelegate {
+class SceneManager{
 public:
     static SceneManager* getInstance();
     void enterMainScene();
@@ -41,7 +39,6 @@ public:
     std::string getOpponentName();
 
 private:
-    std::unique_ptr<NetworkingWrapper> networkingWrapper;
     Scene* _scene;
     bool _isNetwork;
     int _userId;
@@ -50,7 +47,6 @@ private:
     double _opponentStartTime;
     std::string _opponentName;
     void receivedData(const void* data, unsigned long length);
-    void stateChanged(ConnectionState state);
     
     
     SceneManager();

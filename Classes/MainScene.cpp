@@ -23,10 +23,6 @@
 #include "TransmigrationReader.h"
 #include "LackLife.h"
 #include "LackLifeReader.h"
-#include "NetworkingWrapper.h"
-#include "YesNoLayer.h"
-#include "NativeLauncher.h"
-
 USING_NS_CC;
 //using namespace cocos2d::plugin;
 using namespace cocostudio::timeline;
@@ -450,6 +446,7 @@ void MainScene::showLackLifeNotice()
 
 void MainScene::openReviewDialog()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     auto yesno = YesNoLayer::createWithMessage(CCLS("REVIEW_DIALOG_MESSAGE"));
     yesno->pushedYesCallback = [this]{
         cocos2dext::NativeLauncher::openReviewPage();
@@ -460,6 +457,7 @@ void MainScene::openReviewDialog()
         });
     };
     addChild(yesno);
+#endif
 }
 
 #pragma - adcolony

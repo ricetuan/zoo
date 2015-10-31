@@ -10,6 +10,8 @@
 #define __Zoo__Length__
 
 #include "Constants.h"
+#include <string>
+#include <map>
 
 class Length {
 public:
