@@ -6,7 +6,7 @@
 #include "CocosGUI.h"
 #include "CommonInclude.h"
 #include "WorldSceneInterface.h"
-#include "AdColonyAgent.h"
+//#include "AdColonyAgent.h"
 
 class Gacha;
 class Animal;
@@ -15,7 +15,8 @@ class ScaleBar;
 class HpGauge;
 using namespace cocos2d;
 
-class MainScene : public cocos2d::Layer, public WorldSceneInterface, public AdColonyAdsListener
+//class MainScene : public cocos2d::Layer, public WorldSceneInterface, public AdColonyAdsListener
+class MainScene : public cocos2d::Layer, public WorldSceneInterface
 {
 public:
     MainScene();
@@ -53,10 +54,10 @@ public:
     void openReviewDialog();
     
     //callback for AdColony
-    void onAdColonyAdAvailabilityChange(bool success, const char* zoneID, const char* msg);
-    void onAdColonyV4VCReward(bool success, const char* name,int points);
-    void onAdColonyAdStarted();
-    void onAdColonyAdAttemptFinished(bool adShown);
+//    void onAdColonyAdAvailabilityChange(bool success, const char* zoneID, const char* msg);
+//    void onAdColonyV4VCReward(bool success, const char* name,int points);
+//    void onAdColonyAdStarted();
+//    void onAdColonyAdAttemptFinished(bool adShown);
     
 private:
     WorldMap* _map;
@@ -80,14 +81,14 @@ private:
     ScaleBar* _scaleBar;
     Sprite* _weightImage;
     Sprite* _diamonImage;
-    AdColonyAgent* _adcolonyAds;
+  //  AdColonyAgent* _adcolonyAds;
     rapidjson::Document _novelDocument;
     LanguageType _novelLangType;
 
     void onEnter() override;
     void update(float dt);
     void setupTouchHandling();
-    void _setupAdColony();
+//    void _setupAdColony();
     void _setupDebugMenu();
     void _pushEndButton(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void _pushBattleButton(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);

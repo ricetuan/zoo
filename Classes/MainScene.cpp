@@ -28,7 +28,7 @@
 #include "NativeLauncher.h"
 
 USING_NS_CC;
-using namespace cocos2d::plugin;
+//using namespace cocos2d::plugin;
 using namespace cocostudio::timeline;
 
 MainScene::MainScene() :
@@ -120,8 +120,8 @@ bool MainScene::init()
     _scaleBar = _rootNode->getChildByName<ScaleBar*>("scaleBar");
     _hpGauge  = _rootNode->getChildByName<HpGauge*>("hpGauge");
 
-    _setupDebugMenu();
-    _setupAdColony();
+  //  _setupDebugMenu();
+  //  _setupAdColony();
 
     // load the character animation timeline
     _timeline = CSLoader::createTimeline("MainScene.csb");
@@ -441,9 +441,11 @@ void MainScene::showLackLifeNotice()
 {
     auto layer = (LackLife*)CSLoader::createNode("LackLife.csb");
     addChild(layer);
+    /*
     layer->pushedYesCallback = [this]{
         _adcolonyAds->showV4VC(ADCOLONY_ZONE_ID_1.c_str(), false, false);
     };
+     */
 }
 
 void MainScene::openReviewDialog()
@@ -461,7 +463,7 @@ void MainScene::openReviewDialog()
 }
 
 #pragma - adcolony
-
+/*
 void MainScene::onAdColonyAdAvailabilityChange(bool success, const char* zoneID, const char* msg)
 {
   CCLOG("onAdColonyAdAvailabilityChange, success : %d, zoneID: %s msg : %s", success, zoneID, msg);
@@ -495,9 +497,10 @@ void MainScene::onAdColonyAdAttemptFinished(bool adShown)
         showNoticeView(CCLS("NOTICE_REPAIR_LIFE_FAILED"), 0, NULL);
     }
 }
+ */
 
 #pragma - private method
-
+/*
 void MainScene::_setupAdColony()
 {
     auto uuid = NetworkingWrapper::getUUID();
@@ -510,6 +513,7 @@ void MainScene::_setupAdColony()
     std::vector<std::string> zoneIDs =  { ADCOLONY_ZONE_ID_1 };
     _adcolonyAds->configure("", ADCOLONY_APP_ID.c_str(), zoneIDs, this);
 }
+ */
 
 static bool isOpenDebugMenu = false;
 void MainScene::_setupDebugMenu()
