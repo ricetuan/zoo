@@ -2,6 +2,7 @@
 #include "MainScene.h"
 #include "TitleScene.h"
 #include "Constants.h"
+#include "SoundManager.h"
 
 USING_NS_CC;
 
@@ -59,6 +60,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
     
+    SoundManager::getInstance()->pauseBgm();
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 
@@ -68,6 +70,7 @@ void AppDelegate::applicationDidEnterBackground() {
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
+    SoundManager::getInstance()->resumeBgm();
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
