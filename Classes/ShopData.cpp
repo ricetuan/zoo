@@ -79,7 +79,7 @@ ShopData::ShopData()
         for (rapidjson::Value::ConstMemberIterator itr2 = dataListDocument.MemberonBegin();
             itr2 != dataListDocument.MemberonEnd(); ++itr2)
         {
-            int level = std::stoi(itr2->name.GetString());
+            int level = atoi(itr2->name.GetString());
             _maxLevelList[type] = MAX(_maxLevelList[type], level);
             _priceList[type].push_back(itr2->value["price"].GetInt());
             _valueList[type].push_back(itr2->value["value"].GetDouble());

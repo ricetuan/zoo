@@ -10,6 +10,8 @@
 #define __Zoo__Weight__
 
 #include "Constants.h"
+#include <string>
+#include <map>
 class Length;
 
 #endif /* defined(__Zoo__Weight__) */

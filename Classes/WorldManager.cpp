@@ -610,10 +610,7 @@ void WorldManager::endResult()
     if (scene) {
         scene->showMenu();
     }
-    
-    Director::getInstance()->getScheduler()->schedule([this](float dt) {
-        _enableNextAction = true;
-    }, this, 0.5f, false, "update_time");
+    _enableNextAction = true;
 }
 
 void WorldManager::appearCrown(SizeRank rank)

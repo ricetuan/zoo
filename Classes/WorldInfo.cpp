@@ -56,7 +56,9 @@ void WorldInfo::_loadLevel()
     auto jsonStr = FileUtils::getInstance()->getStringFromFile("data/world.json");
     rapidjson::Document document;
     document.Parse<0>(jsonStr.c_str());
-    rapidjson::Value& worldDoc = document[std::to_string(level).c_str()];
+    std::stringstream ss;
+    ss << level;
+    rapidjson::Value& worldDoc = document[ss.str().c_str()];
     std::string unit = worldDoc["unit"].GetString();
     float value = (float)worldDoc["value"].GetDouble();
     float maxValue = (float)worldDoc["maxValue"].GetDouble();

@@ -14,8 +14,11 @@
 #include "WorldManager.h"
 #include "SceneManager.h"
 #include "MainScene.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "PurchaseBridge.h"
-
+#else
+//TODO: android
+#endif
 bool Shop::init() {
     if (!Layer::init()) {
         return false;
@@ -141,8 +144,11 @@ void Shop::_pushBuyDiamondButton(cocos2d::Ref* pSender, cocos2d::ui::Widget::Tou
             ScaleTo::create(0.1f, _buttonScale),
             CallFunc::create([this, type, button]{
                 button->setEnabled(true);
+            #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
                 PurchaseBridge::requestPurchaseDiamond200();
-            
+            #else
+            //TODO：android purchase
+            #endif
                 Director::getInstance()->getScheduler()->schedule(CC_CALLBACK_1(Shop::_updateDiamondNum, this), this, 1.0f, false, "update_diamondNum");
             }),
             NULL

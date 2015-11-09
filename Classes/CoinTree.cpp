@@ -103,11 +103,8 @@ void CoinTree::dropCoin()
     position += getPosition();
     dropCoin->setScale(getScale() * 0.6f);
     dropCoin->setPosition(position);
-    auto parent = getParent();
-    if (parent) {
-        parent->addChild(dropCoin, 10000);
-        dropCoin->getChildByName<ui::TextBMFont*>("text")->setString(StringUtils::format("+%d", _dropCoin));
-    }
+    getParent()->addChild(dropCoin, 10000);
+    dropCoin->getChildByName<ui::TextBMFont*>("text")->setString(StringUtils::format("+%d", _dropCoin));
     
     auto timeline = CSLoader::createTimeline("DropCoin.csb");
     dropCoin->runAction(timeline);

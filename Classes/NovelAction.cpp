@@ -7,6 +7,7 @@
 //
 
 #include "NovelAction.h"
+#include <algorithm>
 
 NovelAction::Type NovelAction::getType() {
     return this->_type;

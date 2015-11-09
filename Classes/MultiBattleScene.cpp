@@ -216,7 +216,9 @@ void MultiBattleScene::updateWeightLabel(Weight weight)
 
 void MultiBattleScene::updateLeftTimeLabel(int leftTime)
 {
-    _timeLeftLabel->setString(to_string(leftTime));
+    std::stringstream ss;
+    ss << leftTime;
+    _timeLeftLabel->setString(ss.str());
 }
 
 void MultiBattleScene::setResult(GameResult result)

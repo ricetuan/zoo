@@ -23,12 +23,9 @@
 #include "TransmigrationReader.h"
 #include "LackLife.h"
 #include "LackLifeReader.h"
-#include "NetworkingWrapper.h"
-#include "YesNoLayer.h"
-#include "NativeLauncher.h"
-
+#include "PluginAdColony/PluginAdColony.h"
 USING_NS_CC;
-using namespace cocos2d::plugin;
+//using namespace cocos2d::plugin;
 using namespace cocostudio::timeline;
 
 MainScene::MainScene() :
@@ -121,7 +118,7 @@ bool MainScene::init()
     _hpGauge  = _rootNode->getChildByName<HpGauge*>("hpGauge");
 
     _setupDebugMenu();
-    _setupAdColony();
+  //  _setupAdColony();
 
     // load the character animation timeline
     _timeline = CSLoader::createTimeline("MainScene.csb");
@@ -318,6 +315,7 @@ void MainScene::playNovel(std::string novelId, std::function<void ()> callback, 
 
 void MainScene::playNovel(std::string novelId, std::function<void ()> callback, bool apearSkipButton)
 {
+    CCLOG("player novel");
     // すでに読んだので再生しない
     bool alreadyRead = UserDataManager::getInstance()->alreadyRead(novelId);
     if (alreadyRead) {
@@ -363,7 +361,6 @@ void MainScene::playNovel(std::string novelId, std::function<void ()> callback, 
     }
     addChild(novel);
     novel->playNovel();
-
     UserDataManager::getInstance()->setAlreadyRead(novelId);
 }
 
@@ -391,7 +388,9 @@ void MainScene::updateLifeLabel(float dt)
 
 void MainScene::updateLeftTimeLabel(int leftTime)
 {
-    _timeLeftLabel->setString(to_string(leftTime));
+    std::stringstream ss;
+    ss << leftTime;
+    _timeLeftLabel->setString(ss.str());
 }
 
 void MainScene::updateHpGauge(float hp)
@@ -442,12 +441,18 @@ void MainScene::showLackLifeNotice()
     auto layer = (LackLife*)CSLoader::createNode("LackLife.csb");
     addChild(layer);
     layer->pushedYesCallback = [this]{
+    	sdkbox::PluginAdColony::show("v4vc");
+    };
+    /*
+    layer->pushedYesCallback = [this]{
         _adcolonyAds->showV4VC(ADCOLONY_ZONE_ID_1.c_str(), false, false);
     };
+     */
 }
 
 void MainScene::openReviewDialog()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     auto yesno = YesNoLayer::createWithMessage(CCLS("REVIEW_DIALOG_MESSAGE"));
     yesno->pushedYesCallback = [this]{
         cocos2dext::NativeLauncher::openReviewPage();
@@ -458,10 +463,11 @@ void MainScene::openReviewDialog()
         });
     };
     addChild(yesno);
+#endif
 }
 
 #pragma - adcolony
-
+/*
 void MainScene::onAdColonyAdAvailabilityChange(bool success, const char* zoneID, const char* msg)
 {
   CCLOG("onAdColonyAdAvailabilityChange, success : %d, zoneID: %s msg : %s", success, zoneID, msg);
@@ -495,9 +501,10 @@ void MainScene::onAdColonyAdAttemptFinished(bool adShown)
         showNoticeView(CCLS("NOTICE_REPAIR_LIFE_FAILED"), 0, NULL);
     }
 }
+ */
 
 #pragma - private method
-
+/*
 void MainScene::_setupAdColony()
 {
     auto uuid = NetworkingWrapper::getUUID();
@@ -510,6 +517,7 @@ void MainScene::_setupAdColony()
     std::vector<std::string> zoneIDs =  { ADCOLONY_ZONE_ID_1 };
     _adcolonyAds->configure("", ADCOLONY_APP_ID.c_str(), zoneIDs, this);
 }
+ */
 
 static bool isOpenDebugMenu = false;
 void MainScene::_setupDebugMenu()
@@ -537,30 +545,6 @@ void MainScene::_setupDebugMenu()
     
     auto repairLife = DebugButton::create("体力回復", [this]() {
         UserDataManager::getInstance()->repairLife(); this->updateLifeLabel(0);
-        
-        // TEST
-        int tryCount = 100000;
-        int minSilver = 0, minGold = 0, maxSilver = 0, maxGold = 0;
-        Species* species = new Species("Tentoumushi");
-        for (int i = 0; i < tryCount; i++) {
-            auto length = species->getRandomHeight();
-            auto minRank = species->getMinHeightRank(length);
-            auto maxRank = species->getMaxHeightRank(length);
-            if (minRank == SizeRank::Gold) {
-                minGold++;
-            } else if (minRank == SizeRank::Silver) {
-                minSilver++;
-            } else if (maxRank == SizeRank::Gold) {
-                maxGold++;
-            } else if (maxRank == SizeRank::Silver) {
-                maxSilver++;
-            }
-        }
-        
-        CCLOG("最大金冠:%d回 (%.02f％)", maxGold, maxGold * 100.0 / tryCount);
-        CCLOG("最大銀冠:%d回 (%.02f％)", maxSilver, maxSilver * 100.0 / tryCount);
-        CCLOG("最小金冠:%d回 (%.02f％)", minGold, minGold * 100.0 / tryCount);
-        CCLOG("最小銀冠:%d回 (%.02f％)", minSilver, minSilver * 100.0 / tryCount);
     });
     repairLife->setAnchorPoint(Vec2(1.0f, 0.0f));
     repairLife->setPosition(Vec2(0, 0));
@@ -686,16 +670,14 @@ void MainScene::_pushBattleButton(cocos2d::Ref* pSender, cocos2d::ui::Widget::To
     }
     if (eEventType == ui::Widget::TouchEventType::ENDED) {
         SoundManager::getInstance()->playDecideEffect2();
-        button->setEnabled(false);
         button->runAction(Sequence::create(
             ScaleTo::create(0.1f, 1),
-            CallFunc::create([this, button]{
+            CallFunc::create([this]{
                 if (WorldManager::getInstance()->getSceneState() == SceneState::Tutorial) {
                     WorldManager::getInstance()->startTutorialBattle();
                 } else {
                     WorldManager::getInstance()->startBattle();
                 }
-                button->setEnabled(true);
             }),
             NULL
         ));

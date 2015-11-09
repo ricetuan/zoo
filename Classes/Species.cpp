@@ -108,13 +108,15 @@ SizeRank Species::getMaxHeightRank(Length maxHeight)
     auto sd   = _getStandardDeviation();
     auto mean = getAverageHeight().getMmLength();
     
-    // 出現率0.6%
-    float goldThreshold   = mean + sd * 2.5;
-    // 出現率1.7%
-    float silverThreshold = mean + sd * 1.8;
+    // 出現率0.13% (R :1 - pnorm(3, 0, 1) = 0.0013
+    float goldThreshold   = mean + sd * 3.0;
+    // 出現率0.4% (R :1 - pnorm(2.65, 0, 1) = 0.0040
+    float silverThreshold = mean + sd * 2.65;
 
-//    float goldThreshold   = mean + sd * 2.0;
-//    float silverThreshold = mean + sd * 1.0;
+//    // 出現率0.13% (R :1 - pnorm(3, 0, 1) = 0.0013
+//    float goldThreshold   = mean + sd * 0.1;
+//    // 出現率0.4% (R :1 - pnorm(2.65, 0, 1) = 0.0040
+//    float silverThreshold = mean + sd * 1.00;
 
 
     if (x > goldThreshold) {
@@ -132,13 +134,15 @@ SizeRank Species::getMinHeightRank(Length minHeight)
     auto sd   = _getStandardDeviation();
     auto mean = getAverageHeight().getMmLength();
     
-    // 出現率0.6%
-    float goldThreshold   = mean - sd * 2.5;
-    // 出現率1.7%
-    float silverThreshold = mean - sd * 1.8;
+    // 出現率0.13% (R :1 - pnorm(3, 0, 1) = 0.0013
+    float goldThreshold   = mean - sd * 3.0;
+    // 出現率0.4% (R :1 - pnorm(2.65, 0, 1) = 0.0040
+    float silverThreshold = mean - sd * 2.65;
 
-//    float goldThreshold   = mean - sd * 2.0;
-//    float silverThreshold = mean - sd * 1.0;
+//    // 出現率0.13% (R :1 - pnorm(3, 0, 1) = 0.0013
+//    float goldThreshold   = mean - sd * 1.0;
+//    // 出現率0.4% (R :1 - pnorm(2.65, 0, 1) = 0.0040
+//    float silverThreshold = mean - sd * 0.1;
 
 
     if (x < goldThreshold) {

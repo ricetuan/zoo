@@ -2,7 +2,8 @@
 #include "MainScene.h"
 #include "TitleScene.h"
 #include "Constants.h"
-#include "NativeLauncher.h"
+#include "SoundManager.h"
+#include "PluginAdColony/PluginAdColony.h"
 
 USING_NS_CC;
 
@@ -53,29 +54,25 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // run
     director->runWithScene(scene);
 
+    sdkbox::PluginAdColony::init();
     return true;
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
-
-    int saveTime = (int)time(NULL);
-    auto defaults = UserDefault::getInstance();
-    defaults->setIntegerForKey("saveTime", saveTime);
-    defaults->flush();
     
-    cocos2dext::NativeLauncher::cancelAllLocalNotification();
-    cocos2dext::NativeLauncher::showLocalNotification(CCLS("PUSH_NOTIFICATION_2DAYS"), 60 * 60 * 24 * 2, 1);
-    cocos2dext::NativeLauncher::showLocalNotification(CCLS("PUSH_NOTIFICATION_1WEEK"), 60 * 60 * 24 * 7, 2);
+    SoundManager::getInstance()->pauseBgm();
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
+    SoundManager::getInstance()->resumeBgm();
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
